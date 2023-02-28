@@ -14,32 +14,34 @@ import {
 } from '@nestjs/common';
 import { Response } from 'express';
 import {
+  Cat,
   CreateCatDto,
   DeleteCatDto,
   ListQuery,
   OneQuery,
   UpdateCatDto,
 } from './types';
+import { CatsService } from './cats.service';
 
 @Controller('cats')
 export class CatsController {
+  constructor(private catsService: CatsService) {}
+
   @Get()
-  @Header('Cache-Control', 'none')
-  list(@Query() query: ListQuery): string {
+  async findAll(@Query() query: ListQuery): Promise<Cat[]> {
     console.log(query, 11);
-    return `This action returns all cats limited ${query.pageSize}`;
+    return this.catsService.findAll();
   }
 
   @Get('/info')
-  getOne(@Query() query: OneQuery): string {
+  findOne(@Query() query: OneQuery): string {
     return `This action returns a #${query.id} cat`;
   }
 
   @Post()
   @HttpCode(204)
-  create(@Body() data: CreateCatDto): string {
-    console.log(data, 111);
-    return 'This action adds a new cat';
+  create(@Body() data: CreateCatDto) {
+    this.catsService.create(data);
   }
 
   @Put()
@@ -53,6 +55,7 @@ export class CatsController {
   }
 
   @Get('/redirect')
+  @Header('Cache-Control', 'none')
   @Redirect('https://nestjs.com', 302)
   redirect() {
     return 'redirect';

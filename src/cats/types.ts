@@ -18,3 +18,8 @@ export class ListQuery {
 export class OneQuery {
   id: string;
 }
+
+export interface Cat {
+  name: string;
+  age: number;
+}
