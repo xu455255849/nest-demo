@@ -3,8 +3,18 @@ export class CreateCatDto {
   readonly age: number;
 }
 
+export class UpdateCatDto {
+  id: string;
+}
 
-export class ListAllEntities {
+export class DeleteCatDto {
+  id: string;
+}
+
+export class ListQuery {
   page: number;
   pageSize: number;
+}
+export class OneQuery {
+  id: string;
 }
