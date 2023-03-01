@@ -13,12 +13,7 @@ import {
   Query,
 } from '@nestjs/common';
 import { Response } from 'express';
-import {
-  CreateCatDto,
-  IdCatDto,
-  ListQueryDto,
-  UpdateCatDto,
-} from './types';
+import { CreateCatDto, IdCatDto, ListQueryDto, UpdateCatDto } from './types';
 import { CatsService } from './cats.service';
 
 @Controller('cats')
@@ -48,13 +43,15 @@ export class CatsController {
   }
 
   @Put()
-  update(@Body() updateParams: UpdateCatDto): string {
-    return `This action returns a #${updateParams.id} cat`;
+  update(@Body() data: UpdateCatDto) {
+    const id = this.catsService.update(data);
+    return { id };
   }
 
   @Delete()
-  delete(@Body() deleteParams: IdCatDto): string {
-    return `This action removes a #${deleteParams.id} cat`;
+  delete(@Query() query: IdCatDto) {
+    const id = this.catsService.delete(query.id);
+    return { id };
   }
 
   @Get('/redirect')

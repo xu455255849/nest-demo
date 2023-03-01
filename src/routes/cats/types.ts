@@ -1,10 +1,4 @@
-import {
-  IsInt,
-  IsBoolean,
-  IsString,
-  MaxLength,
-  MinLength, IsUUID,
-} from 'class-validator';
+import { IsInt, IsString, MaxLength, MinLength, IsUUID } from 'class-validator';
 
 export class CreateCatDto {
   @IsString()
@@ -15,7 +9,7 @@ export class CreateCatDto {
   readonly age: number;
 }
 
-export class UpdateCatDto {
+export class UpdateCatDto extends CreateCatDto {
   @IsUUID()
   id: string;
 }

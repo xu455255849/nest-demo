@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { v4 as uuidv4 } from 'uuid';
-import { Cat } from './types';
+import { Cat, UpdateCatDto } from './types';
 
 export interface saveCat extends Cat {
   id: string;
@@ -8,7 +8,7 @@ export interface saveCat extends Cat {
 
 @Injectable()
 export class CatsService {
-  private readonly cats: saveCat[] = [];
+  private cats: saveCat[] = [];
 
   findAll(): Cat[] {
     return this.cats;
@@ -27,11 +27,17 @@ export class CatsService {
     return id;
   }
 
-  update(id: string) {
-    //
+  update(cat: UpdateCatDto) {
+    const item = this.cats.find((it) => it.id === cat.id);
+    Object.assign(item, cat);
+    return cat.id;
   }
 
   delete(id: string) {
-    //
+    this.cats.splice(
+      this.cats.findIndex((it) => it.id === id),
+      1,
+    );
+    return id;
   }
 }
