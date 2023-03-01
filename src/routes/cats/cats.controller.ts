@@ -11,15 +11,14 @@ import {
   Redirect,
   Body,
   Query,
-  HttpException,
+  BadRequestException,
   ParseIntPipe,
 } from '@nestjs/common';
 import { Response } from 'express';
 import {
-  Cat,
   CreateCatDto,
   DeleteCatDto,
-  ListQuery,
+  ListQueryDto,
   UpdateCatDto,
 } from './types';
 import { CatsService } from './cats.service';
@@ -29,12 +28,11 @@ export class CatsController {
   constructor(private catsService: CatsService) {}
 
   @Get()
-  findAll(@Query() query: ListQuery) {
+  findAll(@Query() query: ListQueryDto) {
     console.log(query, 11);
-    // throw new HttpException('This is a custom message', HttpStatus.FORBIDDEN);
-    const data = this.catsService.findAll();
+    // throw new BadRequestException();
     return {
-      data,
+      data: this.catsService.findAll(),
       total: 10,
       message: 'success',
       statusCode: HttpStatus.OK,
@@ -47,7 +45,6 @@ export class CatsController {
   }
 
   @Post()
-  @HttpCode(204)
   create(@Body() data: CreateCatDto) {
     this.catsService.create(data);
   }
@@ -64,6 +61,7 @@ export class CatsController {
 
   @Get('/redirect')
   @Header('Cache-Control', 'none')
+  @HttpCode(204)
   @Redirect('https://nestjs.com', 302)
   redirect() {
     return 'redirect';
