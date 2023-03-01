@@ -30,3 +30,12 @@ export class ResponseInterceptor<T> implements NestInterceptor<T, Response<T>> {
     );
   }
 }
+
+// 数据处理 避免返回 undefined / null 处理成 []
+export class ExcludeNullInterceptor implements NestInterceptor {
+  intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
+    return next
+      .handle()
+      .pipe(map((value) => ([undefined, null].includes(value) ? [] : value)));
+  }
+}
