@@ -15,9 +15,6 @@ export class ListQuery {
   page: number;
   pageSize: number;
 }
-export class OneQuery {
-  id: string;
-}
 
 export interface Cat {
   name: string;

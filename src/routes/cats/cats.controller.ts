@@ -11,6 +11,8 @@ import {
   Redirect,
   Body,
   Query,
+  HttpException,
+  ParseIntPipe,
 } from '@nestjs/common';
 import { Response } from 'express';
 import {
@@ -18,7 +20,6 @@ import {
   CreateCatDto,
   DeleteCatDto,
   ListQuery,
-  OneQuery,
   UpdateCatDto,
 } from './types';
 import { CatsService } from './cats.service';
@@ -30,11 +31,12 @@ export class CatsController {
   @Get()
   async findAll(@Query() query: ListQuery): Promise<Cat[]> {
     console.log(query, 11);
+    // throw new HttpException('This is a custom message', HttpStatus.FORBIDDEN);
     return this.catsService.findAll();
   }
 
   @Get('/info')
-  findOne(@Query() query: OneQuery): string {
+  findOne(@Query('id', ParseIntPipe) query: { id: number }): string {
     return `This action returns a #${query.id} cat`;
   }
 
