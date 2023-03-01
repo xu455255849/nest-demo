@@ -40,7 +40,7 @@ export class CatsController {
     return `This action returns a #${query.id} cat`;
   }
 
-  @Post()
+  @Post('/create')
   @HttpCode(204)
   create(@Body() data: CreateCatDto) {
     this.catsService.create(data);
