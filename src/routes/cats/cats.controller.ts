@@ -31,11 +31,10 @@ export class CatsController {
   findAll(@Query() query: ListQueryDto) {
     console.log(query, 11);
     // throw new BadRequestException();
+    const list = this.catsService.findAll();
     return {
-      data: this.catsService.findAll(),
-      total: 10,
-      message: 'success',
-      statusCode: HttpStatus.OK,
+      list,
+      total: list.length,
     };
   }
 
@@ -45,8 +44,9 @@ export class CatsController {
   }
 
   @Post()
-  create(@Body() data: CreateCatDto) {
-    this.catsService.create(data);
+  async create(@Body() data: CreateCatDto) {
+    const id = await this.catsService.create(data);
+    return { id };
   }
 
   @Put()
