@@ -29,10 +29,16 @@ export class CatsController {
   constructor(private catsService: CatsService) {}
 
   @Get()
-  async findAll(@Query() query: ListQuery): Promise<Cat[]> {
+  findAll(@Query() query: ListQuery) {
     console.log(query, 11);
     // throw new HttpException('This is a custom message', HttpStatus.FORBIDDEN);
-    return this.catsService.findAll();
+    const data = this.catsService.findAll();
+    return {
+      data,
+      total: 10,
+      message: 'success',
+      statusCode: HttpStatus.OK,
+    };
   }
 
   @Get('/info')
@@ -40,7 +46,7 @@ export class CatsController {
     return `This action returns a #${query.id} cat`;
   }
 
-  @Post('/create')
+  @Post()
   @HttpCode(204)
   create(@Body() data: CreateCatDto) {
     this.catsService.create(data);
