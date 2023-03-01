@@ -3,7 +3,7 @@ import {
   IsBoolean,
   IsString,
   MaxLength,
-  MinLength,
+  MinLength, IsUUID,
 } from 'class-validator';
 
 export class CreateCatDto {
@@ -16,10 +16,12 @@ export class CreateCatDto {
 }
 
 export class UpdateCatDto {
+  @IsUUID()
   id: string;
 }
 
-export class DeleteCatDto {
+export class IdCatDto {
+  @IsUUID()
   id: string;
 }
 

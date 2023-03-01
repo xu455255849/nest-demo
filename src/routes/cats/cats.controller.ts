@@ -11,13 +11,11 @@ import {
   Redirect,
   Body,
   Query,
-  BadRequestException,
-  ParseIntPipe,
 } from '@nestjs/common';
 import { Response } from 'express';
 import {
   CreateCatDto,
-  DeleteCatDto,
+  IdCatDto,
   ListQueryDto,
   UpdateCatDto,
 } from './types';
@@ -30,7 +28,6 @@ export class CatsController {
   @Get()
   findAll(@Query() query: ListQueryDto) {
     console.log(query, 11);
-    // throw new BadRequestException();
     const list = this.catsService.findAll();
     return {
       list,
@@ -39,8 +36,9 @@ export class CatsController {
   }
 
   @Get('/info')
-  findOne(@Query('id', ParseIntPipe) query: { id: number }): string {
-    return `This action returns a #${query.id} cat`;
+  findOne(@Query() query: IdCatDto) {
+    const data = this.catsService.findOne(query.id);
+    return { data };
   }
 
   @Post()
@@ -55,7 +53,7 @@ export class CatsController {
   }
 
   @Delete()
-  delete(@Body() deleteParams: DeleteCatDto): string {
+  delete(@Body() deleteParams: IdCatDto): string {
     return `This action removes a #${deleteParams.id} cat`;
   }
 
