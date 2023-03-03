@@ -8,6 +8,7 @@ import {
   HttpStatus,
 } from '@nestjs/common';
 import { map, Observable } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 
 interface Response<T> {
   message: string;
@@ -37,5 +38,16 @@ export class ExcludeNullInterceptor implements NestInterceptor {
     return next
       .handle()
       .pipe(map((value) => ([undefined, null].includes(value) ? [] : value)));
+  }
+}
+
+// 异常捕获
+export class ErrorsInterceptor implements NestInterceptor {
+  intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
+    return next.handle().pipe(
+      catchError((err) => {
+        throw err;
+      }),
+    );
   }
 }
