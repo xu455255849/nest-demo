@@ -21,13 +21,8 @@ export class CatsController {
   constructor(private catsService: CatsService) {}
 
   @Get()
-  async findAll(@Query() query: ListQueryDto) {
-    console.log(query, 11);
-    const list = await this.catsService.findAll();
-    return {
-      list,
-      total: list.length,
-    };
+  findAll(@Query() query: ListQueryDto) {
+    return this.catsService.findAll(query);
   }
 
   @Get('/info')

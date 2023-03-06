@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 
 import { v4 as uuidv4 } from 'uuid';
-import { CreateCatDto, UpdateCatDto } from './types';
+import { CreateCatDto, ListQueryDto, UpdateCatDto } from './types';
 import { Cat, CatDocument } from './cat.schema';
 import { Model } from 'mongoose';
 import { ConfigService } from '@nestjs/config';
@@ -14,10 +14,20 @@ export class CatsService {
     @InjectModel('Cat') private catModel: Model<CatDocument>,
   ) {}
 
-  async findAll(): Promise<Cat[]> {
-    const name = this.configService.get<string>('DATABASE_USER');
-    console.log(name, 11);
-    return this.catModel.find().exec();
+  async findAll(query: ListQueryDto): Promise<object> {
+    // const name = this.configService.get<string>('DATABASE_USER');
+    const list = await this.catModel
+      .find()
+      .skip((query.page - 1) * query.pageSize)
+      .limit(query.pageSize)
+      .exec();
+
+    const total = await this.catModel.find().count();
+
+    return {
+      list,
+      total,
+    };
   }
 
   async findOne(id: string): Promise<Cat> {
