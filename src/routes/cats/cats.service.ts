@@ -14,13 +14,13 @@ export class CatsService {
     return this.catModel.find().exec();
   }
 
-  findOne(id: string) {
-    // return this.cats.find((it) => it.id === id);
+  async findOne(id: string): Promise<Cat> {
+    return this.catModel.findById(id);
   }
 
   async create(cat: CreateCatDto): Promise<string> {
     const id = uuidv4();
-    const createdCat = new this.catModel(cat);
+    const createdCat = new this.catModel({ id, ...cat });
     await createdCat.save();
     return id;
   }

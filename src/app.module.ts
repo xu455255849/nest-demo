@@ -8,7 +8,7 @@ import { LoggerMiddleware } from './middleware/logger';
 @Module({
   imports: [
     CatsModule,
-    MongooseModule.forRoot('mongodb://127.0.0.1:27017/nest'),
+    MongooseModule.forRoot('mongodb://localhost:27017/nest'),
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -32,8 +32,8 @@ export class CatsController {
 
   @Get('/info')
   findOne(@Query() query: IdCatDto) {
-    /*const data = this.catsService.findOne(query.id);
-     return { ...data };*/
+    const data = this.catsService.findOne(query.id);
+    return { ...data };
   }
 
   @Post()
