@@ -5,12 +5,18 @@ import { v4 as uuidv4 } from 'uuid';
 import { CreateCatDto, UpdateCatDto } from './types';
 import { Cat, CatDocument } from './cat.schema';
 import { Model } from 'mongoose';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class CatsService {
-  constructor(@InjectModel('Cat') private catModel: Model<CatDocument>) {}
+  constructor(
+    private configService: ConfigService,
+    @InjectModel('Cat') private catModel: Model<CatDocument>,
+  ) {}
 
   async findAll(): Promise<Cat[]> {
+    const name = this.configService.get<string>('DATABASE_USER');
+    console.log(name, 11);
     return this.catModel.find().exec();
   }
 
