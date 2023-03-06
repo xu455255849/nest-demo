@@ -1,16 +1,16 @@
 import {
+  Body,
   Controller,
-  Get,
-  Post,
-  Put,
   Delete,
-  Res,
+  Get,
   Header,
   HttpCode,
   HttpStatus,
-  Redirect,
-  Body,
+  Post,
+  Put,
   Query,
+  Redirect,
+  Res,
 } from '@nestjs/common';
 import { Response } from 'express';
 import { CreateCatDto, IdCatDto, ListQueryDto, UpdateCatDto } from './types';
@@ -32,26 +32,22 @@ export class CatsController {
 
   @Get('/info')
   findOne(@Query() query: IdCatDto) {
-    const data = this.catsService.findOne(query.id);
-    return { ...data };
+    return this.catsService.findOne(query.id);
   }
 
   @Post()
-  async create(@Body() data: CreateCatDto) {
-    const id = await this.catsService.create(data);
-    return { id };
+  create(@Body() data: CreateCatDto) {
+    return this.catsService.create(data);
   }
 
   @Put()
   update(@Body() data: UpdateCatDto) {
-    /*const id = this.catsService.update(data);
-    return { id };*/
+    return this.catsService.update(data);
   }
 
   @Delete()
   delete(@Query() query: IdCatDto) {
-    const id = this.catsService.delete(query.id);
-    return { id };
+    return this.catsService.delete(query.id);
   }
 
   @Get('/redirect')

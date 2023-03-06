@@ -15,27 +15,23 @@ export class CatsService {
   }
 
   async findOne(id: string): Promise<Cat> {
-    return this.catModel.findById(id);
+    return this.catModel.findOne({ id }).exec();
   }
 
-  async create(cat: CreateCatDto): Promise<string> {
+  async create(cat: CreateCatDto): Promise<Cat> {
     const id = uuidv4();
     const createdCat = new this.catModel({ id, ...cat });
-    await createdCat.save();
-    return id;
+    return createdCat.save();
   }
 
-  update(cat: UpdateCatDto) {
-    /* const item = this.cats.find((it) => it.id === cat.id);
-    Object.assign(item, cat);
-    return cat.id;*/
+  async update(cat: UpdateCatDto): Promise<Cat> {
+    return this.catModel.findOneAndUpdate(
+      { id: cat.id },
+      { name: cat.name, age: cat.age },
+    );
   }
 
-  delete(id: string) {
-    /*this.cats.splice(
-      this.cats.findIndex((it) => it.id === id),
-      1,
-    );*/
-    return id;
+  delete(id: string): Promise<Cat> {
+    return this.catModel.findOneAndDelete({ id });
   }
 }
