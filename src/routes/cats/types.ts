@@ -23,8 +23,3 @@ export class ListQueryDto {
   page: number;
   pageSize: number;
 }
-
-export interface Cat {
-  name: string;
-  age: number;
-}

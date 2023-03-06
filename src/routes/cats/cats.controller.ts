@@ -21,9 +21,9 @@ export class CatsController {
   constructor(private catsService: CatsService) {}
 
   @Get()
-  findAll(@Query() query: ListQueryDto) {
+  async findAll(@Query() query: ListQueryDto) {
     console.log(query, 11);
-    const list = this.catsService.findAll();
+    const list = await this.catsService.findAll();
     return {
       list,
       total: list.length,
@@ -32,8 +32,8 @@ export class CatsController {
 
   @Get('/info')
   findOne(@Query() query: IdCatDto) {
-    const data = this.catsService.findOne(query.id);
-    return { ...data };
+    /*const data = this.catsService.findOne(query.id);
+     return { ...data };*/
   }
 
   @Post()
@@ -44,8 +44,8 @@ export class CatsController {
 
   @Put()
   update(@Body() data: UpdateCatDto) {
-    const id = this.catsService.update(data);
-    return { id };
+    /*const id = this.catsService.update(data);
+    return { id };*/
   }
 
   @Delete()

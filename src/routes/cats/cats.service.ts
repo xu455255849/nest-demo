@@ -1,43 +1,41 @@
 import { Injectable } from '@nestjs/common';
-import { v4 as uuidv4 } from 'uuid';
-import { Cat, UpdateCatDto } from './types';
+import { InjectModel } from '@nestjs/mongoose';
 
-export interface saveCat extends Cat {
-  id: string;
-}
+import { v4 as uuidv4 } from 'uuid';
+import { CreateCatDto, UpdateCatDto } from './types';
+import { Cat, CatDocument } from './cat.schema';
+import { Model } from 'mongoose';
 
 @Injectable()
 export class CatsService {
-  private cats: saveCat[] = [];
+  constructor(@InjectModel('Cat') private catModel: Model<CatDocument>) {}
 
-  findAll(): Cat[] {
-    return this.cats;
+  async findAll(): Promise<Cat[]> {
+    return this.catModel.find().exec();
   }
 
   findOne(id: string) {
-    return this.cats.find((it) => it.id === id);
+    // return this.cats.find((it) => it.id === id);
   }
 
-  create(cat: Cat) {
+  async create(cat: CreateCatDto): Promise<string> {
     const id = uuidv4();
-    this.cats.push({
-      id,
-      ...cat,
-    });
+    const createdCat = new this.catModel(cat);
+    await createdCat.save();
     return id;
   }
 
   update(cat: UpdateCatDto) {
-    const item = this.cats.find((it) => it.id === cat.id);
+    /* const item = this.cats.find((it) => it.id === cat.id);
     Object.assign(item, cat);
-    return cat.id;
+    return cat.id;*/
   }
 
   delete(id: string) {
-    this.cats.splice(
+    /*this.cats.splice(
       this.cats.findIndex((it) => it.id === id),
       1,
-    );
+    );*/
     return id;
   }
 }
