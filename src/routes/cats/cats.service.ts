@@ -1,11 +1,18 @@
-import { Injectable } from '@nestjs/common';
+import {
+  InternalServerErrorException,
+  Injectable,
+  StreamableFile,
+} from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
+import { createReadStream } from 'fs';
+import { join } from 'path';
 
 import { v4 as uuidv4 } from 'uuid';
 import { CreateCatDto, ListQueryDto, UpdateCatDto } from './types';
 import { Cat, CatDocument } from './cat.schema';
 import { Model } from 'mongoose';
 import { ConfigService } from '@nestjs/config';
+import { createCsvFile } from '../../common/csv-helper';
 
 @Injectable()
 export class CatsService {
@@ -51,9 +58,21 @@ export class CatsService {
     return this.catModel.findOneAndDelete({ id });
   }
 
-  async exportCsv() {
+  async exportCsv(): Promise<StreamableFile | InternalServerErrorException> {
     const list = await this.catModel.find().exec();
-    console.log(list, 11);
-    return list;
+
+    const data = list.map((item) => ({
+      id: item.id,
+      姓名: item.name,
+      年龄: item.age,
+    }));
+
+    const isFileCreated = await createCsvFile('data.csv', data);
+
+    if (!isFileCreated)
+      return new InternalServerErrorException('服务器文件生成错误！');
+
+    const file = createReadStream(join(process.cwd(), 'data.csv'));
+    return new StreamableFile(file);
   }
 }

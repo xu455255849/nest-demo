@@ -15,6 +15,7 @@ specifiers:
   '@typescript-eslint/parser': ^5.0.0
   class-transformer: ^0.5.1
   class-validator: ^0.14.0
+  csv-stringify: ^6.3.0
   eslint: ^8.0.1
   eslint-config-prettier: ^8.3.0
   eslint-plugin-prettier: ^4.0.0
@@ -38,6 +39,7 @@ dependencies:
   '@nestjs/platform-express': 9.3.9_77foi4w27ghy47yutmnzv7krjy
   class-transformer: 0.5.1
   class-validator: 0.14.0
+  csv-stringify: 6.3.0
   mongoose: 7.0.0
   reflect-metadata: 0.1.13
   rxjs: 7.8.0
@@ -1334,6 +1336,10 @@ packages:
       shebang-command: 2.0.0
       which: 2.0.2
     dev: true
+
+  /csv-stringify/6.3.0:
+    resolution: {integrity: sha512-kTnnBkkLmAR1G409aUdShppWUClNbBQZXhrKrXzKYBGw4yfROspiFvVmjbKonCrdGfwnqwMXKLQG7ej7K/jwjg==}
+    dev: false
 
   /debug/2.6.9:
     resolution: {integrity: sha512-bC7ElrdJaJnPbAP+1EotYvqZsb3ecl5wi6Bfi6BJTUcNowp6cvspg0jXznRTKDjm/E7AdgFBVeAPVMNcKGsHMA==}
