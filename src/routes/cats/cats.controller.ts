@@ -26,7 +26,10 @@ export class CatsController {
   }
 
   @Get('export')
-  exportCsv() {
+  exportCsv(@Res({ passthrough: true }) res) {
+    res.set({
+      'Content-Disposition': 'attachment; filename="data.csv"',
+    });
     return this.catsService.exportCsv();
   }
 
