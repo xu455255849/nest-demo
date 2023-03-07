@@ -10,9 +10,10 @@ import {
   Put,
   Query,
   Redirect,
+  Req,
   Res,
 } from '@nestjs/common';
-import { Response } from 'express';
+import { Response, Request } from 'express';
 import { CreateCatDto, IdCatDto, ListQueryDto, UpdateCatDto } from './types';
 import { CatsService } from './cats.service';
 
@@ -26,7 +27,8 @@ export class CatsController {
   }
 
   @Get('export')
-  exportCsv(@Res({ passthrough: true }) res) {
+  exportCsv(@Req() req: Request, @Res({ passthrough: true }) res) {
+    // req.headers['X-WITH-DOWNLOAD'] = 'true';
     res.set({
       'Content-Disposition': 'attachment; filename="data.csv"',
     });

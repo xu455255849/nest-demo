@@ -22,6 +22,8 @@ export class ResponseInterceptor<T> implements NestInterceptor<T, Response<T>> {
     context: ExecutionContext,
     next: CallHandler,
   ): Observable<Response<T>> {
+    const req = context.switchToHttp().getRequest();
+    if (req.get('x-with-download') === 'true') return next.handle();
     return next.handle().pipe(
       map((data) => ({
         statusCode: HttpStatus.OK,
