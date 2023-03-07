@@ -25,6 +25,11 @@ export class CatsController {
     return this.catsService.findAll(query);
   }
 
+  @Get('export')
+  exportCsv() {
+    return this.catsService.exportCsv();
+  }
+
   @Get('/info')
   findOne(@Query() query: IdCatDto) {
     return this.catsService.findOne(query.id);

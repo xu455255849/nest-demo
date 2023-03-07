@@ -12,6 +12,7 @@ import {
 } from '@nestjs/common';
 import { UploadService } from './upload.service';
 import { FileInterceptor } from '@nestjs/platform-express';
+import { IFIle } from './types';
 
 @Controller('upload')
 export class UploadController {
@@ -19,8 +20,7 @@ export class UploadController {
 
   @Post('file')
   @UseInterceptors(FileInterceptor('file'))
-  uploadFile(@UploadedFile() file: any) {
-    console.log(file, 11)
+  uploadFile(@UploadedFile() file: IFIle) {
+    return this.uploadService.importCsv(file);
   }
-
 }

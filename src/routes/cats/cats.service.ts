@@ -14,7 +14,7 @@ export class CatsService {
     @InjectModel('Cat') private catModel: Model<CatDocument>,
   ) {}
 
-  async findAll(query: ListQueryDto): Promise<object> {
+  async findAll(query: ListQueryDto): Promise<{ list: Cat[]; total: number }> {
     // const name = this.configService.get<string>('DATABASE_USER');
     const list = await this.catModel
       .find()
@@ -49,5 +49,11 @@ export class CatsService {
 
   delete(id: string): Promise<Cat> {
     return this.catModel.findOneAndDelete({ id });
+  }
+
+  async exportCsv() {
+    const list = await this.catModel.find().exec();
+    console.log(list, 11);
+    return list;
   }
 }
