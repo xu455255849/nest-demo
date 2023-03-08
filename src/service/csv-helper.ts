@@ -11,7 +11,7 @@ export function createCsvFile(filename, data) {
             'Some error occured - file either not saved or corrupted file saved.',
           );
         } else {
-          resolve(true);
+          // resolve(true);
           console.log('file saved successfully');
         }
       });

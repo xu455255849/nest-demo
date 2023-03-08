@@ -12,7 +12,7 @@ import { CreateCatDto, ListQueryDto, UpdateCatDto } from './types';
 import { Cat, CatDocument } from './cat.schema';
 import { Model } from 'mongoose';
 import { ConfigService } from '@nestjs/config';
-import { createCsvFile } from '../../common/csv-helper';
+import { createCsvFile } from '@/service/csv-helper';
 
 @Injectable()
 export class CatsService {
