@@ -1,15 +1,4 @@
-import {
-  Body,
-  Controller,
-  Delete,
-  Get,
-  Header,
-  HttpCode,
-  HttpStatus,
-  Post,
-  UploadedFile,
-  UseInterceptors,
-} from '@nestjs/common';
+import { Controller, Post, UploadedFile, UseInterceptors } from '@nestjs/common';
 import { UploadService } from './upload.service';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { IFIle } from './types';
@@ -20,7 +9,7 @@ export class UploadController {
 
   @Post('file')
   @UseInterceptors(FileInterceptor('file'))
-  uploadFile(@UploadedFile() file: IFIle) {
-    return this.uploadService.importCsv(file);
+  async uploadFile(@UploadedFile() file: IFIle) {
+    return await this.uploadService.importCsv(file);
   }
 }
