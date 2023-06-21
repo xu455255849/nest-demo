@@ -9,6 +9,9 @@ import { UploadModule } from './routes/upload/upload.module';
 import { LoggerMiddleware } from './middleware/logger';
 import configuration from './config/configuration';
 import { TasksService } from './service/schedule';
+import { WebsocketModule } from './websocket/websocket.module';
+import { WebsocketController } from './websocket/websocket.controller';
+
 
 @Module({
   imports: [
@@ -21,8 +24,9 @@ import { TasksService } from './service/schedule';
     }),
     MongooseModule.forRoot('mongodb://localhost:27017/nest'),
     ScheduleModule.forRoot(),
+    WebsocketModule,
   ],
-  controllers: [AppController],
+  controllers: [AppController, WebsocketController],
   providers: [AppService, TasksService],
 })
 export class AppModule implements NestModule {
