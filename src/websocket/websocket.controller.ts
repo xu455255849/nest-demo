@@ -1,6 +1,6 @@
 import { Controller, Get } from '@nestjs/common';
 
-@Controller('websocket')
+@Controller()
 export class WebsocketController {
   @Get('websocket')
   getWebSocket(): string {
