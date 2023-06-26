@@ -10,7 +10,7 @@ import { LoggerMiddleware } from './middleware/logger';
 import configuration from './config/configuration';
 import { TasksService } from './service/schedule';
 import { WebsocketModule } from './websocket/websocket.module';
-
+import { WebsocketGateway } from './websocket/websocket.gateway';
 
 @Module({
   imports: [
@@ -26,7 +26,7 @@ import { WebsocketModule } from './websocket/websocket.module';
     WebsocketModule,
   ],
   controllers: [AppController],
-  providers: [AppService, TasksService],
+  providers: [AppService, TasksService, WebsocketGateway],
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
